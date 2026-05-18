@@ -23,8 +23,8 @@ pwd
 # which can't be done in the CVMFS read-only version
 ##echo "git clone --recurse-submodules -b FD_Wei https://github.com/FlynnYGUO/DUNE_ND_GeoEff.git "
 ##git clone --recurse-submodules -b FD_Wei https://github.com/FlynnYGUO/DUNE_ND_GeoEff.git
-echo "git clone --recurse-submodules -b master https://github.com/icaracas/DUNE_ND_GeoEff.git "
-git clone --recurse-submodules -b master https://github.com/icaracas/DUNE_ND_GeoEff.git
+echo "git clone --recurse-submodules -b master https://github.com/mhanrahan27/DUNE_NDGeoEff.git "
+git clone --recurse-submodules -b master https://github.com/mhanrahan27/DUNE_NDGeoEff.git
 echo "cd ${_CONDOR_JOB_IWD}/DUNE_ND_GeoEff"
 cd ${_CONDOR_JOB_IWD}/DUNE_ND_GeoEff
 echo "source setup.sh"
