@@ -798,8 +798,11 @@ void ProcessFile(TFile *fHad, TFile *fMu){
                   // cout<<" event nr = "<<i_iwritten<<" Enu = "<<EnuTrue[i_iwritten]<<" FD Event Rate at ND (Etrue) = "<<FDEventRateAtND_ETrue(cacheEtrue, EnuTrue[i_iwritten], OAPos) <<endl;
 
                    //====scale events to desired efficiency and apply lin. comb OA coefficients
-                   HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
-                   HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
+                   // HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
+                   // HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
+				   //===== the following are copied from the NoOsc Ntuple file (Madi attempt to add linCoeff)
+				   HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows * weightCAFLike[i_iwritten] * CoefficientsAtOAPos * 1.0/WeightEventsAtOaPos);
+				   HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows * weightCAFLike[i_iwritten] * 1.0/WeightEventsAtOaPos); // not applying OA coefficients here
 
                 }//end LAr pos
 
