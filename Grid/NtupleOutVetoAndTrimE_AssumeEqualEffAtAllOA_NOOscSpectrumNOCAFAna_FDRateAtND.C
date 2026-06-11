@@ -958,8 +958,12 @@ int main(int argc, char const *argv[]){
   TFile *f1 = TFile::Open(argv[1]);
   TFile *f2 = TFile::Open(argv[2]);
 
-  if (f1->IsZombie() || f2->IsZombie()) {
+  // check for null pointer first, then check if is zombie
+  if (!f1 || f1->IsZombie() || !f2 || f2->IsZombie()) {
     std::cerr << "Error: Could not open one of the files!" << std::endl;
+    // Clean up any file that actually did open successfully
+    if (f1 && !f1->IsZombie()) f1->Close();
+    if (f2 && !f2->IsZombie()) f2->Close();
     return 1;
   }
 
