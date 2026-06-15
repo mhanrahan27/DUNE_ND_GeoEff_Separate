@@ -445,8 +445,7 @@ void ProcessFile(TFile *fHad, TFile *fMu){
   TH2D* CoefficientsAtOAPosHist = new TH2D("CoefficientsAtOAPosHist", "CoefficientsAtOAPosHist", 67, -30.5, 3, 60, -0.3, 0.3);
 
 
-  TFile* FileWithHistoInfo = new TFile("FileWithHistEtrim_MuAndHaddEff_VisEtrim_FDEvRateAtND_NDFV4m_NoOsc_CoeffsApplied_2DHistosWithSelectedAndThrownEvents_WithCAFLikeMuCut.root", "RECREATE");
-  cout<<"Created file 'FileWithHistEtrim_MuAndHaddEff_VisEtrim_FDEvRateAtND_NDFV4m_NoOsc_CoeffsApplied_2DHistosWithSelectedAndThrownEvents_WithCAFLikeMuCut.root'."<<endl;
+  TFile* FileWithHistoInfo = new TFile("FileWithHistEtrim_MuAndHaddEff_VisEtrim_FDEvRateAtND_NDFV4m_NoOsc_NoCoeffsApplied_2DHistosWithSelectedAndThrownEvents_WithCAFLikeMuCut.root", "RECREATE");
   FileWithHistoInfo->cd();
 
 
@@ -801,8 +800,8 @@ void ProcessFile(TFile *fHad, TFile *fMu){
                    }
 
                    //====scale events to 1/validThrows (alreays have nPAssingThrows events in Etrim histos. by applying weightPmuon the muon efficiency is accounted for -> integral of Etrim histo [vtxX][detPos] = CombinedEff [vtxX]
-                   HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows * weightCAFLike[i_iwritten] * CoefficientsAtOAPos * 1.0/WeightEventsAtOaPos);
-                   HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows * weightCAFLike[i_iwritten] * 1.0/WeightEventsAtOaPos); // not applying OA coefficients here
+                   HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows );//* 1.0/WeightEventsAtOaPos);// * CoefficientsAtOAPos * 1.0/WeightEventsAtOaPos);
+                   HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Scale(1.0/validThrows );//* 1.0/WeightEventsAtOaPos);// * CoefficientsAtOAPos * 1.0/WeightEventsAtOaPos);
                    // for not don't write any more each individual VtxXDetPos histogram..will do so in the future probably but to speed up and empty some memory don't write it for now
                    // HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosNoFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
                    // HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->Write(HistEtrimDetPosWithFDEventRate[i_iwritten][i_vtxX_plot-1][i_detpos-1]->GetName());
@@ -958,12 +957,8 @@ int main(int argc, char const *argv[]){
   TFile *f1 = TFile::Open(argv[1]);
   TFile *f2 = TFile::Open(argv[2]);
 
-  // check for null pointer first, then check if is zombie
-  if (!f1 || f1->IsZombie() || !f2 || f2->IsZombie()) {
+  if (f1->IsZombie() || f2->IsZombie()) {
     std::cerr << "Error: Could not open one of the files!" << std::endl;
-    // Clean up any file that actually did open successfully
-    if (f1 && !f1->IsZombie()) f1->Close();
-    if (f2 && !f2->IsZombie()) f2->Close();
     return 1;
   }
 
